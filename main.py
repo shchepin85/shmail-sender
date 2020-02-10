@@ -19,7 +19,7 @@ def send_email_to_client(addr_from, password, addr_to, email_subject, email_body
     msg['From']    = addr_from                              # Адресат
     msg['To']      = addr_to                                # Получатель
     msg['Subject'] = email_subject                          # Тема сообщения
-    msg.attach(MIMEText(email_body, 'plain'))               # Добавляем в сообщение текст
+    msg.attach(MIMEText(email_body, 'html'))                # Добавляем в сообщение текст
 
     server = smtplib.SMTP('smtp.gmail.com', 587)            # Создаем объект SMTP
     server.starttls()                                       # Начинаем шифрованный обмен по TLS
