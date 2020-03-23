@@ -1,1 +1,1 @@
-# shmail-sender
+# shmailer
