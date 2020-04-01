@@ -39,7 +39,7 @@ from   jinja2               import Template, Environment, meta
  
 # ======================== FUNCTIONS ========================= #
  
-# Select template from the list of template files
+# Select template from the template directory
 def shmailer_template_select():
  
     template_files_directory      = os.path.join(os.getcwd(),'templates')
@@ -66,7 +66,7 @@ def shmailer_template_parse(file_object):
 def shmailer_template_modify        (file_object, template_variables):
 
     for    key in                    template_variables.keys():
-           template_variables[key] = input("Введите значение для '" + key + "': ")
+           template_variables[key] = input("Input '" + key + "': ")
            template_file_modified  = Template(file_object).render(template_variables.items())
     return template_file_modified
 
@@ -95,7 +95,7 @@ def shmailer_email_send(email_body):
     server.send_message(msg)
     server.quit        ()
 
-    print              ('Email отправлен!')
+    print              ('Email sent succesfully!')
     return              True
 
 
