@@ -1,5 +1,6 @@
 # ================================ ABOUT ==================================== #
 
+
 #   This utility can send email, formed from the selected HTML-template.
 #   Preliminarily, you can prepare template and download it in the
 #   '/template' folder.
@@ -7,11 +8,13 @@
 
 # ================================ PREREQUISITES ============================ #
 
+
 #   Python 3.5 or later
 #   pip install Jinja2
 
 
 # ================================ LICENSE ================================== #
+
 
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -29,6 +32,7 @@
 
 # ================================ LIBRARIES ================================ #
 
+
 import os
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -38,6 +42,7 @@ from jinja2 import Template, Environment, meta
 
 
 # ================================ FUNCTIONS ================================ #
+
 
 def sh_template_select():
     """Select template from the directory"""
@@ -53,29 +58,25 @@ def sh_template_select():
     template_selected_file_path = os.path.join(
             template_files_directory,
             template_files_list[template_selected_file_id])
-    template_selected_file_object = open(
-            template_selected_file_path, encoding='utf-8').read()
-    return template_selected_file_object
+    return template_selected_file_path
 
 
-def sh_template_parse(file_object):
-    """Parse keys from the template"""
+def sh_template_modify(file_path):
+    """Modify template"""
 
+    file_object = open(file_path, encoding='utf-8').read()
     template_enviroment = Environment()
     template_ast = template_enviroment.parse(file_object)
     template_variables = dict.fromkeys(
             meta.find_undeclared_variables(template_ast), None)
-    return template_variables
-
-
-def sh_template_modify(file_object, template_variables):
-    """Modify template"""
 
     for key in template_variables.keys():
         template_variables[key] = input("Input '" + key + "': ")
-        template_file_modified = Template(
+        template_modified = Template(
                 file_object).render(template_variables.items())
-    return template_file_modified
+    file_object.close()
+
+    return template_modified
 
 
 def sh_email_send(email_body):
@@ -109,17 +110,18 @@ def sh_email_send(email_body):
 
 # ================================ MAIN CYCLE =============================== #
 
-print('Hello, welcome to shmailer!')
-while(True):
 
-    sh_template_selected = sh_template_select()
-    sh_template_variables = sh_template_parse(sh_template_selected)
-    sh_template_modified = sh_template_modify(sh_template_selected,
-                                              sh_template_variables)
-    sh_send_result = sh_email_send(sh_template_modified)
-    sh_exit = input('press Enter')
+print('Hello, welcome to shmailer!')
+
+while(True):
+    template_select = sh_template_select()
+    template_modify = sh_template_modify(template_select)
+    email_send = sh_email_send(template_modify)
+    shmailer_exit = input('press Enter')
     # if shmailer_exit == 'exit':
     #     break
+
 # print('Bye-bye!')
 
-# ======================== END =============================== #
+
+# ================================ END ====================================== #
