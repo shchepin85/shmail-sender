@@ -1,17 +1,17 @@
-# ======================== ABOUT ============================= #
+# ================================ ABOUT ==================================== #
 
 #   This utility can send email, formed from the selected HTML-template.
 #   Preliminarily, you can prepare template and download it in the
 #   '/template' folder.
 
 
-# ======================== PREREQUISITES ====================== #
+# ================================ PREREQUISITES ============================ #
 
 #   Python 3.5 or later
 #   pip install Jinja2
 
 
-# ======================== LICENSE =========================== #
+# ================================ LICENSE ================================== #
 
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 #   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-# ======================== LIBRARIES ========================= #
+# ================================ LIBRARIES ================================ #
  
 import os
 import smtplib
@@ -37,7 +37,7 @@ from email.mime.text import MIMEText
 from jinja2 import Template, Environment, meta 
  
  
-# ======================== FUNCTIONS ========================= #
+# ================================ FUNCTIONS ================================ #
 
 def shmailer_template_select():
     '''Select template from the directory'''
@@ -46,11 +46,15 @@ def shmailer_template_select():
     template_files_list = os.listdir(template_files_directory)
     print('List of templates:')
     for template_file_name in template_files_list:
-        print(template_files_list.index(template_file_name), ':', template_file_name)
-    template_selected_file_id = int(input('Input number of selected template: '))
-    template_selected_file_path = os.path.join(template_files_directory,
-                                               template_files_list[template_selected_file_id])
-    template_selected_file_object = open(template_selected_file_path, encoding='utf-8').read()
+        print(template_files_list.index(template_file_name), ':', 
+                                        template_file_name)
+    template_selected_file_id = int(input(
+            'Input number of selected template: '))
+    template_selected_file_path = os.path.join(
+            template_files_directory,
+            template_files_list[template_selected_file_id])
+    template_selected_file_object = open(
+            template_selected_file_path, encoding='utf-8').read()
     return template_selected_file_object
  
 def shmailer_template_parse(file_object):
@@ -58,7 +62,8 @@ def shmailer_template_parse(file_object):
  
     template_enviroment = Environment()
     template_ast = template_enviroment.parse(file_object)
-    template_variables = dict.fromkeys (meta.find_undeclared_variables(template_ast), None)
+    template_variables = dict.fromkeys(
+            meta.find_undeclared_variables(template_ast), None)
     return template_variables
  
 def shmailer_template_modify(file_object, template_variables):
@@ -66,7 +71,8 @@ def shmailer_template_modify(file_object, template_variables):
 
     for key in template_variables.keys():
         template_variables[key] = input("Input '" + key + "': ")
-        template_file_modified = Template(file_object).render(template_variables.items())
+        template_file_modified = Template(
+                file_object).render(template_variables.items())
     return template_file_modified
 
 def shmailer_email_send(email_body):
@@ -98,18 +104,18 @@ def shmailer_email_send(email_body):
     return True
 
 
-# ======================== MAIN CYCLE ======================== #
+# ================================ MAIN CYCLE =============================== #
 
 print('Hello, welcome to shmailer!')
 while(True):
     '''Main cycle'''
 
-    shmailer_template_selected = shmailer_template_select()
-    shmailer_template_variables = shmailer_template_parse(shmailer_template_selected)
-    shmailer_template_modified = shmailer_template_modify(shmailer_template_selected, 
-                                                          shmailer_template_variables)
-    shmailer_send_result = shmailer_email_send(shmailer_template_modified)
-    shmailer_exit = input('press Enter')
+    sh_template_selected = sh_template_select()
+    sh_template_variables = sh_template_parse(sh_template_selected)
+    sh_template_modified = sh_template_modify(sh_template_selected, 
+                                              sh_template_variables)
+    sh_send_result = sh_email_send(shmailer_template_modified)
+    sh_exit = input('press Enter')
     #if shmailer_exit == 'exit':
     #    break
 #print('Bye-bye!')
