@@ -33,14 +33,14 @@ import os
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-# from email.mime.image import MIMEImage
+#from email.mime.image import MIMEImage
 from jinja2 import Template, Environment, meta 
  
  
 # ================================ FUNCTIONS ================================ #
 
 def shmailer_template_select():
-    '''Select template from the directory'''
+    """Select template from the directory"""
  
     template_files_directory = os.path.join(os.getcwd(),'templates')
     template_files_list = os.listdir(template_files_directory)
@@ -58,7 +58,7 @@ def shmailer_template_select():
     return template_selected_file_object
  
 def shmailer_template_parse(file_object):
-    '''Parse keys from the template'''
+    """Parse keys from the template"""
  
     template_enviroment = Environment()
     template_ast = template_enviroment.parse(file_object)
@@ -67,7 +67,7 @@ def shmailer_template_parse(file_object):
     return template_variables
  
 def shmailer_template_modify(file_object, template_variables):
-    '''Modify template'''
+    """Modify template"""
 
     for key in template_variables.keys():
         template_variables[key] = input("Input '" + key + "': ")
@@ -76,7 +76,7 @@ def shmailer_template_modify(file_object, template_variables):
     return template_file_modified
 
 def shmailer_email_send(email_body):
-    '''Send email'''
+    """Send email"""
 
     print('Input additional information to send email!')
     email_from = input('From: ')
@@ -108,7 +108,6 @@ def shmailer_email_send(email_body):
 
 print('Hello, welcome to shmailer!')
 while(True):
-    '''Main cycle'''
 
     sh_template_selected = sh_template_select()
     sh_template_variables = sh_template_parse(sh_template_selected)
